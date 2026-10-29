@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TreeCount | Aerial Tree Analysis</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="brand">Tree<span>Count</span></div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1>Tree Counting Dashboard</h1>
+        <p>
+          Upload aerial imagery to detect tree canopy, estimate individual tree
+          crowns, and view the resulting image overlay.
+        </p>
+      </section>
+
+      <div class="layout">
+        <section class="card">
+          <h2>Image & Location</h2>
+          <p class="description">
+            Select an aerial image and provide its resolution. Coordinates are
+            reserved for future functionality.
+          </p>
+
+          <form id="treeForm">
+            <label class="upload-area" id="dropArea" for="imageInput">
+              <div class="upload-icon">🌳</div>
+              <strong>Choose an aerial image</strong>
+              <small>Click to browse or drag and drop</small>
+              <div class="file-name" id="fileName">No image selected</div>
+            </label>
+
+            <input
+              type="file"
+              id="imageInput"
+              accept=".jpg,.jpeg,.png,.tif,.tiff,image/jpeg,image/png,image/tiff"
+              required
+            />
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="latitude">Latitude</label>
+                <input
+                  id="latitude"
+                  type="number"
+                  min="-90"
+                  max="90"
+                  step="any"
+                  placeholder="-1.2864"
+                />
+              </div>
+
+              <div class="field">
+                <label for="longitude">Longitude</label>
+                <input
+                  id="longitude"
+                  type="number"
+                  min="-180"
+                  max="180"
+                  step="any"
+                  placeholder="36.8172"
+                />
+              </div>
+            </div>
+
+            <p class="hint">
+              Optional. Coordinates are not currently sent to the API or used in
+              tree counting.
+            </p>
+
+            <div class="field">
+              <label for="gsd">Ground sampling distance (m/pixel)</label>
+              <input
+                id="gsd"
+                type="number"
+                min="0.000001"
+                max="100"
+                step="any"
+                value="0.10"
+                required
+              />
+              <p class="hint">
+                Enter the source image's actual resolution in metres per pixel,
+                e.g. 0.05 for 5 cm/pixel.
+              </p>
+            </div>
+
+            <button type="submit" id="submitButton">Count Trees</button>
+
+            <div
+              id="status"
+              class="status"
+              role="status"
+              aria-live="polite"
+            ></div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Analysis Results</h2>
+          <p class="description">
+            Your tree count and processed image will appear here.
+          </p>
+
+          <div class="result-placeholder" id="placeholder">
+            <div>
+              <div style="font-size: 2rem; margin-bottom: 12px">🛰️</div>
+              Upload an image and select <strong>Count Trees</strong>
+              to begin your analysis.
+            </div>
+          </div>
+
+          <div class="result-content" id="resultContent">
+            <div class="count-box">
+              <div class="count-label">Estimated trees detected</div>
+              <div class="count-number" id="treeCount">—</div>
+              <div class="count-caption">
+                Individual crowns estimated by the model
+              </div>
+            </div>
+
+            <div class="preview-heading">
+              <h3>Detection Overlay</h3>
+              <a id="downloadLink" download="tree_overlay.png">
+                Download PNG
+              </a>
+            </div>
+
+            <img
+              id="overlayImage"
+              class="preview-image"
+              alt="Processed aerial image showing detected tree crowns"
+            />
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>TreeCount · Aerial imagery analysis</footer>
+    <script src="/static/index.js"></script>
+  </body>
+</html>
